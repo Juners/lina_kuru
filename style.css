@@ -32,7 +32,7 @@ h1 {
 h2 {
     text-align: center;
     font-weight: bold;
-    font-size: 1.5em;    
+    font-size: 1.5em;
 }
 
 hr {
@@ -47,13 +47,13 @@ hr {
 }
 
 #counter-container {
-    text-align: center; 
+    text-align: center;
     font-weight: bold;
     padding: 64px 0;
 }
 
-#counter-container > p {
-    text-shadow: #9d88d3 0 0 10px,#9d88d3 0 0 10px,#9d88d3 0 0 10px,#9d88d3 0 0 10px,#9d88d3 0 0 10px;
+#counter-container>p {
+    text-shadow: #9d88d3 0 0 10px, #9d88d3 0 0 10px, #9d88d3 0 0 10px, #9d88d3 0 0 10px, #9d88d3 0 0 10px;
 }
 
 #counter {
@@ -61,7 +61,8 @@ hr {
     font-size: 2em;
 }
 
-#counter-button {
+#counter-button,
+#options-button {
     background-color: #574f84;
     border: none;
     border-radius: 16px;
@@ -72,9 +73,18 @@ hr {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     margin-top: 16px;
+
+    cursor: pointer;
 }
 
-#counter-button:hover {
+#options-button {
+    padding: 16px;
+    position: relative;
+}
+
+#counter-button:hover,
+#options-button:hover,
+#options-button.active {
     background-color: #2d2463;
 }
 
@@ -82,7 +92,7 @@ hr {
     background-color: white;
     color: black;
     padding: 16px 10vw;
-    display: flex;    
+    display: flex;
     gap: 16px;
     align-items: center;
     justify-content: center;
@@ -101,10 +111,11 @@ hr {
 .footer-icon {
     display: inline-block;
     vertical-align: middle;
-    font-size: 2em;    
+    font-size: 2em;
 }
+
 .footer-icon.smaller {
-    font-size: 1.2em;    
+    font-size: 1.2em;
 }
 
 #twitter-footer-icon {
@@ -127,6 +138,30 @@ hr {
     margin-bottom: 16px;
 }
 
+#options-modal {
+    /* position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); */
+    position: absolute;
+    right: 0;
+    top: 70px;
+    cursor: default;
+    padding: 10px;
+    border-radius: 16px;
+
+    width: 500px;
+    height: 100px;
+    background-color: #6a5d8d;
+    font-size: 0.8em;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
 @media screen and (max-width: 2240px) {
     .grid-item {
         width: calc(20% - 10px);
@@ -144,7 +179,7 @@ hr {
         font-size: 1.25em;
     }
 
-    #subtitle-seperator {    
+    #subtitle-seperator {
         margin-top: 3px;
         margin-bottom: 11px;
     }
@@ -155,7 +190,7 @@ hr {
         width: calc(100% / 3 - 10px);
     }
 
-    #footer {        
+    #footer {
         flex-wrap: wrap;
     }
 
@@ -178,7 +213,7 @@ hr {
         font-size: 1em;
     }
 
-    #subtitle-seperator {    
+    #subtitle-seperator {
         margin-top: 6px;
         margin-bottom: 12px;
     }
@@ -199,7 +234,7 @@ hr {
         font-size: 1.25em;
     }
 
-    #subtitle-seperator {    
+    #subtitle-seperator {
         margin-top: 8px;
         margin-bottom: 13px;
     }
@@ -216,7 +251,24 @@ hr {
         font-size: 2em;
     }
 
-    #subtitle-seperator {    
+    #subtitle-seperator {
         margin-top: 10px;
+    }
+}
+
+
+.running-in-the-90s {
+    animation-duration: 2s;
+    animation-name: slide_left;
+    animation-timing-function: linear;
+}
+
+@keyframes slide_left {
+    from {
+        left: calc(100vw + 100px);
+    }
+
+    to {
+        left: -100px;
     }
 }

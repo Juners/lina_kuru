@@ -28,8 +28,25 @@
             <br />
             <br />
             <p id="counter-times">times</p>
-            <button id="counter-button" onclick="counterClick()">
+            <button id="counter-button" onclick="counterClick()" onmousedown="smashThatButton()"
+                onmouseup="doneWithThatButton()" onmouseleave="doneWithThatButton()">
                 Squish the lina~!
+            </button>
+            <button id="options-button">
+                <iconify-icon icon="mdi:cog" id="options-icon" class="footer-icon smaller"></iconify-icon>
+
+                <div id="options-modal" class="hidden">
+                    <form action="">
+                        <input type="checkbox" id="css-animations" name="css-animations" checked="true" /> <label
+                            for="css-animations">Use CSS
+                            animations. CSS
+                            animations use GPU
+                            instead of CPU for rendering
+                            the animation</label>
+
+                            <!-- TODO: Add options to customize how fast lina spawns -->
+                    </form>
+                </div>
             </button>
         </div>
         <hr />
@@ -62,6 +79,10 @@
 </html>
 
 <script>
+    const DEFAULT_OPTIONS = {
+        useCss: true,
+    }
+
     //varible
     const audioList = [
         new Audio("audio/kuruto.mp3"),
@@ -119,11 +140,14 @@
         });
     }
 
+    function retrieveOptions() {
+        const options = localStorage.getItem("options") || DEFAULT_OPTIONS;
+        return JSON.parse(options);
+    }
+
     function animateHerta() {
-        // console.log("click")
         const counter_container = document.getElementById("counter-container");
         const counter_button = document.getElementById("counter-button");
-        let id = null;
 
         const base_position = counter_container.getClientRects()[0].top;
         const max_height = base_position + counter_container.getClientRects()[0].height - 112;
@@ -136,23 +160,99 @@
         elem.src = `img/linaa1.gif`;
         elem.height = 112;
         elem.style.position = "absolute";
-        elem.style.right = "-500px";
+        elem.style.right = "-100px";
         elem.style.top = rand_position + "px";
         elem.style.zIndex = "-1";
-        document.body.appendChild(elem);
 
-        let pos = -500;
-        const limit = window.innerWidth + 500;
-        clearInterval(id);
-        id = setInterval(() => {
-            if (pos >= limit) {
-                clearInterval(id);
-                elem.remove()
-            } else {
-                pos += 20;
-                elem.style.right = pos + 'px';
-            }
-        }, 12);
+        const { useCss } = retrieveOptions();
+        if (useCss) {
+            elem.classList.add("running-in-the-90s");
+            elem.addEventListener("animationend", () => {
+                elem.remove();
+            });
+
+            document.body.appendChild(elem);
+        } else {
+            // This methods needs to have the element already in the DOM
+            document.body.appendChild(elem);
+
+            let pos = -100;
+            const limit = window.innerWidth + 100;
+            let id = setInterval(() => {
+                if (pos >= limit) {
+                    clearInterval(id);
+                    elem.remove()
+                } else {
+                    pos += 15;
+                    elem.style.right = pos + 'px';
+                }
+            }, 12);
+        }
+
     }
     //end counter button
+
+    function saveOptions(ev, form) {
+        ev.preventDefault();
+        const formData = Object.fromEntries(new FormData(form));
+        const options = { useCss: formData["css-animations"] === "on" };
+        localStorage.setItem("options", JSON.stringify(options));
+
+        document.getElementById("css-animations").checked = options.useCss;
+    }
+
+    let timeout = null;
+    let interval = null;
+    function smashThatButton() {
+        timeout = setTimeout(() => {
+            clearInterval(interval);
+            interval = setInterval(() => {
+                counterClick();
+            }, 100);
+        }, 1000);
+    }
+
+    function doneWithThatButton() {
+        clearTimeout(timeout);
+        clearInterval(interval);
+    }
+
+    const options_button = document.getElementById("options-button");
+    const options_modal = document.getElementById("options-modal");
+    let options_outside_listener = null;
+    function toggleOptions() {
+        const isActive = options_button.classList.contains("active");
+
+        options_button.classList.toggle("active");
+        options_modal.classList.toggle("hidden");
+
+        if (isActive) {
+            document.body.removeEventListener("click", closeOnOutsideClick);
+        } else {
+            document.body.addEventListener("click", closeOnOutsideClick);
+        }
+    }
+
+    function closeOnOutsideClick(ev) {
+        if (!options_button.contains(ev.target)) {
+            closeOptions();
+        }
+    }
+
+    function closeOptions() {
+        options_button.classList.remove("active");
+        options_modal.classList.add("hidden");
+    }
+
+    document.body.onload = function () {
+        const form = document.getElementById("options-modal").children[0];
+        form.addEventListener("submit", (ev) => saveOptions(ev, form));
+        form.addEventListener("change", (ev) => saveOptions(ev, form));
+
+        options_button.addEventListener("click", (ev) => {
+            if (!options_modal.contains(ev.target)) {
+                toggleOptions();
+            }
+        })
+    }
 </script>
