@@ -49,7 +49,7 @@ hr {
 #counter-container {
     text-align: center; 
     font-weight: bold;
-    margin: 64px 0;
+    padding: 64px 0;
 }
 
 #counter-container > p {
@@ -102,6 +102,9 @@ hr {
     display: inline-block;
     vertical-align: middle;
     font-size: 2em;    
+}
+.footer-icon.smaller {
+    font-size: 1.2em;    
 }
 
 #twitter-footer-icon {

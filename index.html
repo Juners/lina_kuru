@@ -13,17 +13,15 @@
 </head>
 
 <body>
-    <img src="img/hertaa1.gif" class="preload" />
-    <img src="img/hertaa2.gif" class="preload" />
+    <img src="img/linaa1.gif" class="preload" />
     <div id="content">
-        <h1>Welcome to herta kuru</h1>
+        <h1>Welcome to Lina kuru</h1>
         <hr id="subtitle-seperator" />
         <h2>
-            The website for Herta, the <del>annoying</del> cutest genius Honkai:
-            Star Rail character out there.
+            The website for Nekrolina, the <del>stinky</del> bottomest cat Vtuber in Twitch.
         </h2>
         <div id="counter-container">
-            <p>The kuru~ has been squished</p>
+            <p>The lina~ has been squished</p>
             <br />
             <br />
             <p id="counter">0</p>
@@ -31,7 +29,7 @@
             <br />
             <p id="counter-times">times</p>
             <button id="counter-button" onclick="counterClick()">
-                Squish the kuru~!
+                Squish the lina~!
             </button>
         </div>
         <hr />
@@ -42,21 +40,20 @@
         </div>
     </div>
     <div id="footer">
-        <img id="herta-card" loading="lazy" src="img/card.jpg" alt="" />
         <div id="footer-text">
-            <p>Herta gif made by</p>
-            <p>
-                <a href="https://twitter.com/Seseren_kr" target="_blank"><iconify-icon icon="mdi:twitter"
-                        id="twitter-footer-icon" class="footer-icon"></iconify-icon><span
-                        class="footer-icon-text">@Seseren_kr</span></a>
-            </p>
             <p id="footer-repository-text">
-                You can check out the GitHub repository here:
+                Original herta kuru page made by <a href="https://github.com/duiqt" target="_blank"><iconify-icon
+                        icon="mdi:github" id="github-footer-icon" class="footer-icon smaller"></iconify-icon>duiqt</a>
             </p>
             <p>
-                <a href="https://github.com/duiqt/herta.kuru" target="_blank"><iconify-icon icon="mdi:github"
+                <a href="https://github.com/duiqt/herta_kuru" target="_blank"><iconify-icon icon="mdi:github"
                         id="github-footer-icon" class="footer-icon"></iconify-icon><span
-                        class="footer-icon-text">herta_kuru repo</span></a>
+                        class="footer-icon-text">Original herta_kuru repo</span></a>
+            </p>
+            <p>
+                <a href="https://github.com/Juners/lina_kuru" target="_blank"><iconify-icon icon="mdi:github"
+                        id="github-footer-icon" class="footer-icon"></iconify-icon><span
+                        class="footer-icon-text">lina_kuru repo</span></a>
             </p>
         </div>
     </div>
@@ -86,7 +83,7 @@
     let temporaryCounter = parseInt(localStorage.getItem("count"));
     const counterElement = document.getElementById("counter");
     const counterTimesElement = document.getElementById("counter-times");
-    
+
     displayCounter(temporaryCounter);
 
     //counter button
@@ -98,7 +95,7 @@
         playKuru();
         animateHerta();
     }
-    
+
     function displayCounter(value) {
         counterElement.innerText = value;
         counterTimesElement.innerText = value === 1 ? "time" : "times";
@@ -123,15 +120,24 @@
     }
 
     function animateHerta() {
+        // console.log("click")
+        const counter_container = document.getElementById("counter-container");
         const counter_button = document.getElementById("counter-button");
         let id = null;
 
-        const random = Math.floor(Math.random() * 2) + 1;
+        const base_position = counter_container.getClientRects()[0].top;
+        const max_height = base_position + counter_container.getClientRects()[0].height - 112;
+
+        const rand_position = Math.floor(Math.random() * (max_height - base_position)) + base_position;
+
+        // const random = Math.floor(Math.random() * 2) + 1;
         const elem = document.createElement("img");
-        elem.src = `img/hertaa${random}.gif`;
+        // elem.src = `img/linaa${random}.gif`;
+        elem.src = `img/linaa1.gif`;
+        elem.height = 112;
         elem.style.position = "absolute";
         elem.style.right = "-500px";
-        elem.style.top = counter_button.getClientRects()[0].bottom + scrollY - 430 + "px"
+        elem.style.top = rand_position + "px";
         elem.style.zIndex = "-1";
         document.body.appendChild(elem);
 
