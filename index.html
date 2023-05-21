@@ -141,8 +141,8 @@
     }
 
     function retrieveOptions() {
-        const options = localStorage.getItem("options") || DEFAULT_OPTIONS;
-        return JSON.parse(options);
+        const options = localStorage.getItem("options");
+        return JSON.parse(options || DEFAULT_OPTIONS);
     }
 
     function animateHerta() {
